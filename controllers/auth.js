@@ -5,7 +5,7 @@ const jwt=require('jsonwebtoken')
 exports.register=(req,res,next)=>{
     const {name,email,password,phone}=req.body
 
-        bcrypt.hash( password,10,   (err,hash)=>{
+    bcrypt.hash(password,10, (err,hash)=>{
 
         User.findAll({where:{email:email}})
         .then(users=>{
@@ -44,7 +44,7 @@ exports.login= async(req,res,next)=>{
         if(!passMatch)
         return res.status(401).json({success:false,message:'Incorrect Password'})
 
-        const token=jwt.sign({id:User.id},`${process.env.TOKEN_SECRET}`)
+        const token=jwt.sign({id:user.id},`${process.env.TOKEN_SECRET}`)
         return res.json({token:token,email:user.email,success:true,message:'successfully logged in'});
 
 
